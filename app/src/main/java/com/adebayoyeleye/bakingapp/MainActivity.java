@@ -1,5 +1,7 @@
 package com.adebayoyeleye.bakingapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity
                 = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 //        mRecyclerView.setHasFixedSize(true);
-        mRecipesAdapter = new RecipesAdapter(this, null);
+        mRecipesAdapter = new RecipesAdapter(this, this);
         mRecyclerView.setAdapter(mRecipesAdapter);
 
 
@@ -133,12 +135,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(Recipe recipeClicked) {
-//        Context context = this;
-//        Class destinationClass = DetailsActivity.class;
-//        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-//        intentToStartDetailActivity.putExtra(Recipe.RECIPE_EXTRA, recipeClicked);
-//        startActivity(intentToStartDetailActivity);
-
+        Context context = this;
+        Class destinationClass = StepsActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        intentToStartDetailActivity.putExtra(Recipe.RECIPE_EXTRA, recipeClicked);
+        startActivity(intentToStartDetailActivity);
 
     }
 }

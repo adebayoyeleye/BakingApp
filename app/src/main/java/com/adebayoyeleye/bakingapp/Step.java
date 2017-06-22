@@ -33,6 +33,9 @@ public class Step implements Parcelable {
         }
 
     };
+
+    public static final String STEP_EXTRA = "step";
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -48,6 +51,7 @@ public class Step implements Parcelable {
     @SerializedName("thumbnailURL")
     @Expose
     private String thumbnailURL;
+
 
     public Integer getId() {
         return id;

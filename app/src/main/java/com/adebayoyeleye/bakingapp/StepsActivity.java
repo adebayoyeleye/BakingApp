@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-public class StepsActivity extends AppCompatActivity {
+public class StepsActivity extends AppCompatActivity implements StepsAdapter.StepsAdapterOnClickHandler {
 
     Recipe recipeClicked;
 
@@ -34,6 +34,7 @@ public class StepsActivity extends AppCompatActivity {
                 StepsListFragment stepsListFragment = new StepsListFragment();
                 stepsListFragment.setRecipeClicked(recipeClicked);
                 stepsListFragment.setContext(this);
+                stepsListFragment.setClickHandler(this);
 
                 fragmentManager.beginTransaction()
                         .add(R.id.fragment_steps_list_container, stepsListFragment)
@@ -42,6 +43,20 @@ public class StepsActivity extends AppCompatActivity {
             }
 
         }
+
+    }
+
+    @Override
+    public void onClick(Step stepClicked) {
+        // Put this information in a Bundle and attach it to an Intent that will launch a StepDetailsActivity
+        Bundle b = new Bundle();
+        b.putParcelable(Step.STEP_EXTRA, stepClicked);
+
+        // Attach the Bundle to an intent
+        final Intent intent = new Intent(this, StepDetailsActivity.class);
+        intent.putExtras(b);
+
+        startActivity(intent);
 
     }
 }

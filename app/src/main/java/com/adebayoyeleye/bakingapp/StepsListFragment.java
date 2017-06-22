@@ -27,8 +27,10 @@ public class StepsListFragment extends Fragment {
     RecyclerView mStepsList;
     Recipe recipeClicked;
     Context context;
+
     private IngredientsAdapter mIngredientsAdapter;
     private StepsAdapter mStepsAdapter;
+    private StepsAdapter.StepsAdapterOnClickHandler mClickHandler;
 
     public StepsListFragment() {
     }
@@ -41,6 +43,11 @@ public class StepsListFragment extends Fragment {
         this.context = context;
     }
 
+    public void setClickHandler(StepsAdapter.StepsAdapterOnClickHandler mClickHandler) {
+        this.mClickHandler = mClickHandler;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -48,10 +55,11 @@ public class StepsListFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         RecyclerView.LayoutManager stepsLayoutManager = new LinearLayoutManager(context);
-        mStepsAdapter = new StepsAdapter(recipeClicked.getSteps(), null);
+        mStepsAdapter = new StepsAdapter(recipeClicked.getSteps(), mClickHandler);
         mStepsList.setLayoutManager(stepsLayoutManager);
         mStepsList.setAdapter(mStepsAdapter);
 
         return rootView;
     }
+
 }

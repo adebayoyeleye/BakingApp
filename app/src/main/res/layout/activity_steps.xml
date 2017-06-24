@@ -18,11 +18,10 @@
             android:layout_height="wrap_content"
             android:scaleType="centerInside" />
 
-        <!--
-                <view
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
-        -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@android:color/darker_gray" />
 
         <FrameLayout
             android:id="@+id/fragment_steps_list_container"

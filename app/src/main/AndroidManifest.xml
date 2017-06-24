@@ -22,12 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StepsActivity">
+        <activity
+            android:name=".StepsActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".StepDetailsActivity" />
+        <activity android:name=".StepDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StepsActivity" />
+        </activity>
 
         <receiver android:name=".BakingAppWidgetProvider">
             <intent-filter>

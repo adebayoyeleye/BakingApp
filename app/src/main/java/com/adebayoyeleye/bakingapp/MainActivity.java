@@ -7,6 +7,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -46,10 +47,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        GridLayoutManager layoutManager
-//                = new GridLayoutManager(this,3);
-        RecyclerView.LayoutManager layoutManager
-                = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager;
+
+        if (findViewById(R.id.tabView) != null) {
+
+            layoutManager = new GridLayoutManager(this, 3);
+        } else {
+            layoutManager = new LinearLayoutManager(this);
+        }
         mRecyclerView.setLayoutManager(layoutManager);
 //        mRecyclerView.setHasFixedSize(true);
         mRecipesAdapter = new RecipesAdapter(this, this);

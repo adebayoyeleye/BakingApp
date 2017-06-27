@@ -1,9 +1,13 @@
-package com.adebayoyeleye.bakingapp;
+package com.adebayoyeleye.bakingapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+
+import com.adebayoyeleye.bakingapp.R;
+import com.adebayoyeleye.bakingapp.objects.Recipe;
+import com.adebayoyeleye.bakingapp.objects.Step;
 
 public class StepsActivity extends AppCompatActivity implements StepsAdapter.StepsAdapterOnClickHandler {
 

@@ -1,4 +1,4 @@
-package com.adebayoyeleye.bakingapp;
+package com.adebayoyeleye.bakingapp.ui;
 
 
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.adebayoyeleye.bakingapp.R;
+import com.adebayoyeleye.bakingapp.objects.Recipe;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -17,22 +20,20 @@ import butterknife.ButterKnife;
  * Created by Adebayo on 19/06/2017.
  */
 
-public class StepsListFragment extends Fragment {
+public class IngredientsListFragment extends Fragment {
 
-    /*
-        @BindView(R.id.rv_ingredients)
-        RecyclerView mIngredientsList;
-    */
-    @BindView(R.id.rv_steps)
-    RecyclerView mStepsList;
+    @BindView(R.id.rv_ingredients)
+    RecyclerView mIngredientsList;
     Recipe recipeClicked;
     Context context;
-
+    /*
+        @BindView(R.id.rv_steps)
+        RecyclerView mStepsList;
+    */
     private IngredientsAdapter mIngredientsAdapter;
     private StepsAdapter mStepsAdapter;
-    private StepsAdapter.StepsAdapterOnClickHandler mClickHandler;
 
-    public StepsListFragment() {
+    public IngredientsListFragment() {
     }
 
     public void setRecipeClicked(Recipe recipeClicked) {
@@ -43,23 +44,18 @@ public class StepsListFragment extends Fragment {
         this.context = context;
     }
 
-    public void setClickHandler(StepsAdapter.StepsAdapterOnClickHandler mClickHandler) {
-        this.mClickHandler = mClickHandler;
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_master_list_steps, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_master_list_ingredients, container, false);
         ButterKnife.bind(this, rootView);
 
+        RecyclerView.LayoutManager ingredientsLayoutManager = new LinearLayoutManager(context);
         RecyclerView.LayoutManager stepsLayoutManager = new LinearLayoutManager(context);
-        mStepsAdapter = new StepsAdapter(recipeClicked.getSteps(), mClickHandler);
-        mStepsList.setLayoutManager(stepsLayoutManager);
-        mStepsList.setAdapter(mStepsAdapter);
+        mIngredientsAdapter = new IngredientsAdapter(recipeClicked.getIngredients());
+        mIngredientsList.setLayoutManager(ingredientsLayoutManager);
+        mIngredientsList.setAdapter(mIngredientsAdapter);
 
         return rootView;
     }
-
 }

@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 
 public final class NetworkUtils {
-    private static final String RECIPE_LIST_URL =
+    public static final String RECIPE_LIST_URL =
             "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
     public static URL buildUrl() {

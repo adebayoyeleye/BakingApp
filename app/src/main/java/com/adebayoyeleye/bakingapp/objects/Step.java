@@ -1,4 +1,4 @@
-package com.adebayoyeleye.bakingapp;
+package com.adebayoyeleye.bakingapp.objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;

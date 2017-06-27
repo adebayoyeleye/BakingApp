@@ -1,4 +1,4 @@
-package com.adebayoyeleye.bakingapp;
+package com.adebayoyeleye.bakingapp.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.adebayoyeleye.bakingapp.R;
+import com.adebayoyeleye.bakingapp.objects.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;

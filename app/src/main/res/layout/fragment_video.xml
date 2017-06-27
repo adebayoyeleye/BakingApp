@@ -9,11 +9,32 @@
  See the License for the specific language governing permissions and
  limitations under the License.-->
 
-<!-- This fragment layout displays just one image of an Android-Me body part -->
-<com.google.android.exoplayer2.ui.SimpleExoPlayerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sepv_step_video"
+<!--
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+-->
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/sepv_step_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/tv_step_full_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+    <!--</ScrollView>-->

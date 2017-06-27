@@ -1,4 +1,4 @@
-package com.adebayoyeleye.bakingapp;
+package com.adebayoyeleye.bakingapp.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.adebayoyeleye.bakingapp.R;
+import com.adebayoyeleye.bakingapp.objects.Recipe;
 import com.adebayoyeleye.bakingapp.utilities.NetworkUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -62,10 +64,11 @@ public class MainActivity extends AppCompatActivity
 
 
         loadRecipes(RECIPE_LIST_URL);
+//        showStuff();
 
     }
 
-    void loadRecipes(String recipeListUrl) {
+    public Recipe[] loadRecipes(String recipeListUrl) {
         Bundle loadBundle = new Bundle();
         loadBundle.putString(BUNDLE_EXTRA, recipeListUrl);
 
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             loaderManager.restartLoader(OBJECT_LOADER, loadBundle, this);
         }
-
+        return recipes;
     }
 
     @Override
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     @Override
     public void onLoaderReset(Loader<Recipe[]> loader) {
 
@@ -146,5 +150,15 @@ public class MainActivity extends AppCompatActivity
         intentToStartDetailActivity.putExtra(Recipe.RECIPE_EXTRA, recipeClicked);
         startActivity(intentToStartDetailActivity);
 
+    }
+
+    void showStuff() {
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        if (recipes != null && recipes.length != 0) {
+            mRecipesAdapter.setResults(recipes);
+            showRecipesDataView();
+        } else {
+            showErrorMessage();
+        }
     }
 }

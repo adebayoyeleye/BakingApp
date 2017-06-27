@@ -1,4 +1,4 @@
-package com.adebayoyeleye.bakingapp;
+package com.adebayoyeleye.bakingapp.objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -27,8 +27,8 @@ public class Recipe implements Parcelable {
             Recipe instance = new Recipe();
             instance.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
             instance.name = ((String) in.readValue((String.class.getClassLoader())));
-            in.readList(instance.ingredients, (com.adebayoyeleye.bakingapp.Ingredient.class.getClassLoader()));
-            in.readList(instance.steps, (com.adebayoyeleye.bakingapp.Step.class.getClassLoader()));
+            in.readList(instance.ingredients, (Ingredient.class.getClassLoader()));
+            in.readList(instance.steps, (Step.class.getClassLoader()));
             instance.servings = ((Integer) in.readValue((Integer.class.getClassLoader())));
             instance.image = ((String) in.readValue((String.class.getClassLoader())));
             return instance;

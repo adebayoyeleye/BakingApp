@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.adebayoyeleye.bakingapp;
+package com.adebayoyeleye.bakingapp.ui;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -25,7 +25,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.adebayoyeleye.bakingapp.R;
+import com.adebayoyeleye.bakingapp.objects.Step;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
@@ -55,6 +58,9 @@ public class VideoFragment extends Fragment {
 
     @BindView(R.id.sepv_step_video)
     SimpleExoPlayerView mStepPlayerView;
+
+    @BindView(R.id.tv_step_full_description)
+    TextView mStepDescriptionTextView;
 
     private SimpleExoPlayer mExoPlayer;
 
@@ -95,7 +101,7 @@ public class VideoFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
         ButterKnife.bind(this, rootView);
 
-        mStepPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.ic_error));
+        mStepPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.ic_do_not_disturb));
 
         if (mExoPlayer == null && stepClicked != null) {
 /*
@@ -126,12 +132,19 @@ public class VideoFragment extends Fragment {
                     Util.getUserAgent(context, "BakingApp"), (TransferListener<? super DataSource>) bandwidthMeter);
             // Produces Extractor instances for parsing the media data.
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-            MediaSource videoSource = new ExtractorMediaSource(Uri.parse(stepClicked.getVideoURL()),
-                    dataSourceFactory, extractorsFactory, null, null);
-            mExoPlayer.prepare(videoSource);
-            mExoPlayer.setPlayWhenReady(true);
+            String videoUrl = stepClicked.getVideoURL() != null ? stepClicked.getVideoURL() : stepClicked.getThumbnailURL();
+            if (videoUrl != null) {
+                MediaSource videoSource = new ExtractorMediaSource(Uri.parse(videoUrl),
+                        dataSourceFactory, extractorsFactory, null, null);
+                mExoPlayer.prepare(videoSource);
+                mExoPlayer.setPlayWhenReady(true);
+            } else
+                mStepPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.ic_error));
+
+            mStepDescriptionTextView.setText(stepClicked.getDescription() != null ? stepClicked.getDescription() : "No description of this step available");
 
         }
+
 
 
         return rootView;
@@ -140,6 +153,26 @@ public class VideoFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         if (mExoPlayer != null) {
             mExoPlayer.stop();
             mExoPlayer.release();

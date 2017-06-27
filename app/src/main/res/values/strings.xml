@@ -4,4 +4,6 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="empty_view_text">no recipes</string>
+    <string name="button_previous">Previous Step</string>
+    <string name="button_next">Next Step</string>
 </resources>

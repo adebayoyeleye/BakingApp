@@ -35,6 +35,7 @@ public class Step implements Parcelable {
     };
 
     public static final String STEP_EXTRA = "step";
+    public static final String INDEX_EXTRA = "index";
 
     @SerializedName("id")
     @Expose

@@ -66,7 +66,10 @@ public class VideoFragment extends Fragment {
 
     private Context context;
 
+    //    private List<Step> steps;
+//    private int stepIndex;
     private Step stepClicked;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
@@ -81,6 +84,16 @@ public class VideoFragment extends Fragment {
     public void setStep(Step stepClicked) {
         this.stepClicked = stepClicked;
     }
+/*
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
+
+    public void setStepIndex(int stepIndex) {
+        this.stepIndex = stepIndex;
+    }
+*/
+
 
 
     /**

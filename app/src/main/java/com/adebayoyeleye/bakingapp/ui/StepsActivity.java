@@ -2,12 +2,16 @@ package com.adebayoyeleye.bakingapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.adebayoyeleye.bakingapp.R;
 import com.adebayoyeleye.bakingapp.objects.Recipe;
 import com.adebayoyeleye.bakingapp.objects.Step;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StepsActivity extends AppCompatActivity implements StepsAdapter.StepsAdapterOnClickHandler {
 
@@ -83,7 +87,11 @@ public class StepsActivity extends AppCompatActivity implements StepsAdapter.Ste
         } else {
             // Put this information in a Bundle and attach it to an Intent that will launch a StepDetailsActivity
             Bundle b = new Bundle();
-            b.putParcelable(Step.STEP_EXTRA, stepClicked);
+            List<Step> steps = recipeClicked.getSteps();
+            int stepIndex = steps.indexOf(stepClicked);
+            b.putParcelableArrayList(Step.STEP_EXTRA, (ArrayList<? extends Parcelable>) steps);
+            b.putInt(Step.INDEX_EXTRA, stepIndex);
+
 
             // Attach the Bundle to an intent
             final Intent intent = new Intent(this, StepDetailsActivity.class);

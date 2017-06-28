@@ -39,36 +39,46 @@ public class StepsActivity extends AppCompatActivity implements StepsAdapter.Ste
             mTwoPane = false;
         }
 
-        Intent intentThatStartedThisActivity = getIntent();
-
-        if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(Recipe.RECIPE_EXTRA)) {
-
-                recipeClicked = intentThatStartedThisActivity.getParcelableExtra(Recipe.RECIPE_EXTRA);
-
-                IngredientsListFragment ingredientsListFragment = new IngredientsListFragment();
-                ingredientsListFragment.setRecipeClicked(recipeClicked);
-                ingredientsListFragment.setContext(this);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_master_list_container, ingredientsListFragment)
-                        .commit();
-
-
-                StepsListFragment stepsListFragment = new StepsListFragment();
-                stepsListFragment.setRecipeClicked(recipeClicked);
-                stepsListFragment.setContext(this);
-                stepsListFragment.setClickHandler(this);
-
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_steps_list_container, stepsListFragment)
-                        .commit();
-
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(Recipe.RECIPE_EXTRA)) {
+                recipeClicked = savedInstanceState
+                        .getParcelable(Recipe.RECIPE_EXTRA);
             }
+        } else {
 
+            Intent intentThatStartedThisActivity = getIntent();
+
+            if ((intentThatStartedThisActivity != null) && (intentThatStartedThisActivity.hasExtra(Recipe.RECIPE_EXTRA))) {
+                recipeClicked = intentThatStartedThisActivity.getParcelableExtra(Recipe.RECIPE_EXTRA);
+            }
         }
 
+        IngredientsListFragment ingredientsListFragment = new IngredientsListFragment();
+        ingredientsListFragment.setIngredientsList(recipeClicked.getIngredients());
+        ingredientsListFragment.setContext(this);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_master_list_container, ingredientsListFragment)
+                .commit();
+
+
+        StepsListFragment stepsListFragment = new StepsListFragment();
+        stepsListFragment.setStepsList(recipeClicked.getSteps());
+        stepsListFragment.setContext(this);
+        stepsListFragment.setClickHandler(this);
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_steps_list_container, stepsListFragment)
+                .commit();
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Recipe.RECIPE_EXTRA, recipeClicked);
     }
 
     @Override

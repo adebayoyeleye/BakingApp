@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.adebayoyeleye.bakingapp.R;
-import com.adebayoyeleye.bakingapp.objects.Recipe;
+import com.adebayoyeleye.bakingapp.objects.Ingredient;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +26,7 @@ public class IngredientsListFragment extends Fragment {
 
     @BindView(R.id.rv_ingredients)
     RecyclerView mIngredientsList;
-    Recipe recipeClicked;
+    List<Ingredient> ingredientsList;
     Context context;
 
     private IngredientsAdapter mIngredientsAdapter;
@@ -32,8 +34,8 @@ public class IngredientsListFragment extends Fragment {
     public IngredientsListFragment() {
     }
 
-    public void setRecipeClicked(Recipe recipeClicked) {
-        this.recipeClicked = recipeClicked;
+    public void setIngredientsList(List<Ingredient> ingredientsList) {
+        this.ingredientsList = ingredientsList;
     }
 
     public void setContext(Context context) {
@@ -47,7 +49,7 @@ public class IngredientsListFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         RecyclerView.LayoutManager ingredientsLayoutManager = new LinearLayoutManager(context);
-        mIngredientsAdapter = new IngredientsAdapter(recipeClicked.getIngredients());
+        mIngredientsAdapter = new IngredientsAdapter(ingredientsList);
         mIngredientsList.setLayoutManager(ingredientsLayoutManager);
         mIngredientsList.setAdapter(mIngredientsAdapter);
 

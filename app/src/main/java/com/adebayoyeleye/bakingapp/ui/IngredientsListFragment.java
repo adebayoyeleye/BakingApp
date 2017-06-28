@@ -26,12 +26,8 @@ public class IngredientsListFragment extends Fragment {
     RecyclerView mIngredientsList;
     Recipe recipeClicked;
     Context context;
-    /*
-        @BindView(R.id.rv_steps)
-        RecyclerView mStepsList;
-    */
+
     private IngredientsAdapter mIngredientsAdapter;
-    private StepsAdapter mStepsAdapter;
 
     public IngredientsListFragment() {
     }
@@ -51,7 +47,6 @@ public class IngredientsListFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         RecyclerView.LayoutManager ingredientsLayoutManager = new LinearLayoutManager(context);
-        RecyclerView.LayoutManager stepsLayoutManager = new LinearLayoutManager(context);
         mIngredientsAdapter = new IngredientsAdapter(recipeClicked.getIngredients());
         mIngredientsList.setLayoutManager(ingredientsLayoutManager);
         mIngredientsList.setAdapter(mIngredientsAdapter);

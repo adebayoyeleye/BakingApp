@@ -31,4 +31,5 @@ public class MainActivityBasicTest {
         onView((withId(R.id.fragment_master_list_container))).check(matches(isDisplayed()));
     }
 
+
 }

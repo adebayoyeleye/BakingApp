@@ -33,7 +33,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
-        // Get current width to decide on single plant vs garden grid view
+        // Get current width to decide on view
         Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
         int width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
         RemoteViews rv;
@@ -45,19 +45,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
 
-    /**
-     * Updates all widget instances given the widget Ids and display information
-     */
-/*
-    public static void updatePlantWidgets(Context context, AppWidgetManager appWidgetManager,
-                                          int imgRes, long plantId, boolean showWater, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, imgRes, plantId, showWater, appWidgetId);
-        }
-    }
-*/
-
-//    Creates and returns the RemoteViews to be displayed in the single plant mode widget
+    //    Creates and returns the RemoteViews to be displayed in the single widget
     private static RemoteViews getSingleRecipeRemoteView(Context context) {
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
@@ -70,7 +58,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
         return views;
     }
 
-    //    Creates and returns the RemoteViews to be displayed in the GridView mode widget
+    //    Creates and returns the RemoteViews to be displayed in the GridView widget
     private static RemoteViews getRecipesGridRemoteView(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_grid_view);
         // Set the GridWidgetService intent to act as the adapter for the GridView
@@ -87,8 +75,6 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-//        //Start the intent service update widget action, the service takes care of updating the widgets UI
-//        PlantWateringService.startActionUpdatePlantWidgets(context);
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);

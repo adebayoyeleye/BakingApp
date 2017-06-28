@@ -42,7 +42,6 @@ public class GridWidgetService extends RemoteViewsService {
 class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     Context mContext;
-//    Cursor mCursor;
 
     Recipe[] mRecipes;
 
@@ -59,43 +58,23 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     //called on start and when notifyAppWidgetViewDataChanged is called
     @Override
     public void onDataSetChanged() {
-/*
-        // Get all plant info ordered by creation time
-        Uri PLANT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_PLANTS).build();
-        if (mCursor != null) mCursor.close();
-        mCursor = mContext.getContentResolver().query(
-                PLANT_URI,
-                null,
-                null,
-                null,
-                PlantContract.PlantEntry.COLUMN_CREATION_TIME
-        );
-*/
-//        mRecipes = new RecipeUtils().loadRecipes();
         URL url = NetworkUtils.buildUrl();
         Gson gson = new Gson();
         try {
             String jsonResultString = NetworkUtils.getResponseFromHttpUrl(url);
             mRecipes = gson.fromJson(jsonResultString, Recipe[].class);
-//            return recipes;
         } catch (JsonSyntaxException | IOException e) {
             e.printStackTrace();
-//            return null;
         }
 
     }
 
     @Override
     public void onDestroy() {
-//        mCursor.close();
     }
 
     @Override
     public int getCount() {
-/*
-        if (mCursor == null) return 0;
-        return mCursor.getCount();
-*/
         if (mRecipes == null) return 0;
         return mRecipes.length;
     }
@@ -108,33 +87,9 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
      */
     @Override
     public RemoteViews getViewAt(int position) {
-/*
-        if (mCursor == null || mCursor.getCount() == 0) return null;
-        mCursor.moveToPosition(position);
-        int idIndex = mCursor.getColumnIndex(PlantContract.PlantEntry._ID);
-        int createTimeIndex = mCursor.getColumnIndex(PlantContract.PlantEntry.COLUMN_CREATION_TIME);
-        int waterTimeIndex = mCursor.getColumnIndex(PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME);
-        int plantTypeIndex = mCursor.getColumnIndex(PlantContract.PlantEntry.COLUMN_PLANT_TYPE);
-
-        long plantId = mCursor.getLong(idIndex);
-        int plantType = mCursor.getInt(plantTypeIndex);
-        long createdAt = mCursor.getLong(createTimeIndex);
-        long wateredAt = mCursor.getLong(waterTimeIndex);
-        long timeNow = System.currentTimeMillis();
-*/
-
         if (mRecipes == null || mRecipes.length == 0) return null;
 
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.baking_app_widget_provider);
-
-/*
-        // Update the plant image
-        int imgRes = PlantUtils.getPlantImageRes(mContext, timeNow - createdAt, timeNow - wateredAt, plantType);
-        views.setImageViewResource(R.id.widget_plant_image, imgRes);
-        views.setTextViewText(R.id.widget_plant_name, String.valueOf(plantId));
-        // Always hide the water drop in GridView mode
-        views.setViewVisibility(R.id.widget_water_button, View.GONE);
-*/
 
         views.setTextViewText(R.id.appwidget_text, mRecipes[position].getName());
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
@@ -152,7 +107,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 .into(views, R.id.iv_recipe_image, appWidgetIds);
 */
 
-        // Fill in the onClick PendingIntent Template using the specific plant Id for each item individually
+        // Fill in the onClick PendingIntent Template
         Bundle extras = new Bundle();
         extras.putParcelable(Recipe.RECIPE_EXTRA, mRecipes[position]);
         Intent fillInIntent = new Intent();

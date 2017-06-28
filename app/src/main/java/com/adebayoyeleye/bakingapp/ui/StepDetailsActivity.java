@@ -44,8 +44,6 @@ public class StepDetailsActivity extends AppCompatActivity {
                 stepClicked = steps.get(stepIndex);
                 VideoFragment videoFragment = new VideoFragment();
                 videoFragment.setStep(stepClicked);
-//                videoFragment.setStepIndex(stepIndex);
-//                videoFragment.setSteps(steps);
                 videoFragment.setContext(this);
                 FragmentManager fragmentManager = getSupportFragmentManager();
 

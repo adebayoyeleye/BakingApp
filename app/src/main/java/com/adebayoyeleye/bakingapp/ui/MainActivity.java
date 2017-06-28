@@ -58,17 +58,16 @@ public class MainActivity extends AppCompatActivity
             layoutManager = new LinearLayoutManager(this);
         }
         mRecyclerView.setLayoutManager(layoutManager);
-//        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
         mRecipesAdapter = new RecipesAdapter(this, this);
         mRecyclerView.setAdapter(mRecipesAdapter);
 
 
         loadRecipes(RECIPE_LIST_URL);
-//        showStuff();
 
     }
 
-    public Recipe[] loadRecipes(String recipeListUrl) {
+    void loadRecipes(String recipeListUrl) {
         Bundle loadBundle = new Bundle();
         loadBundle.putString(BUNDLE_EXTRA, recipeListUrl);
 
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             loaderManager.restartLoader(OBJECT_LOADER, loadBundle, this);
         }
-        return recipes;
     }
 
     @Override
@@ -152,13 +150,4 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    void showStuff() {
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
-        if (recipes != null && recipes.length != 0) {
-            mRecipesAdapter.setResults(recipes);
-            showRecipesDataView();
-        } else {
-            showErrorMessage();
-        }
-    }
 }

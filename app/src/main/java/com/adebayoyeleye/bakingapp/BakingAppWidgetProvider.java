@@ -47,7 +47,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
 
     //    Creates and returns the RemoteViews to be displayed in the single widget
     private static RemoteViews getSingleRecipeRemoteView(Context context) {
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+        CharSequence widgetText = context.getString(R.string.app_name);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget_provider);
         views.setTextViewText(R.id.appwidget_text, widgetText);

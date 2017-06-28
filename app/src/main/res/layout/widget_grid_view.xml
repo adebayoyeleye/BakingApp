@@ -4,12 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
+    <!--
+        <GridView
+            android:id="@+id/widget_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:numColumns="4" />
+    -->
+    <ListView
         android:id="@+id/widget_grid_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:numColumns="4" />
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:id="@+id/empty_view"

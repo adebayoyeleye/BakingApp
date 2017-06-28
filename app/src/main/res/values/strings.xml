@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BakingApp</string>
     <string name="error_message">Oops! Something went wrong.</string>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="widget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="empty_view_text">no recipes</string>
     <string name="button_previous">Previous Step</string>

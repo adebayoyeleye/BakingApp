@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.adebayoyeleye.bakingapp.objects.Ingredient;
 import com.adebayoyeleye.bakingapp.objects.Recipe;
 import com.adebayoyeleye.bakingapp.utilities.NetworkUtils;
 import com.google.gson.Gson;
@@ -31,6 +32,7 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class GridWidgetService extends RemoteViewsService {
     @Override
@@ -44,6 +46,9 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     Context mContext;
 
     Recipe[] mRecipes;
+    private List<Ingredient> desiredIngredients;
+    private Ingredient ingredient;
+    private Recipe desiredRecipe;
 
     public GridRemoteViewsFactory(Context applicationContext) {
         mContext = applicationContext;
@@ -63,6 +68,8 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         try {
             String jsonResultString = NetworkUtils.getResponseFromHttpUrl(url);
             mRecipes = gson.fromJson(jsonResultString, Recipe[].class);
+            desiredRecipe = mRecipes[0];
+            desiredIngredients = desiredRecipe.getIngredients();
         } catch (JsonSyntaxException | IOException e) {
             e.printStackTrace();
         }
@@ -75,8 +82,8 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        if (mRecipes == null) return 0;
-        return mRecipes.length;
+        if (desiredIngredients == null) return 0;
+        return desiredIngredients.size();
     }
 
     /**
@@ -87,29 +94,20 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
      */
     @Override
     public RemoteViews getViewAt(int position) {
-        if (mRecipes == null || mRecipes.length == 0) return null;
+        if (desiredIngredients == null || desiredIngredients.size() == 0) return null;
 
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.baking_app_widget_provider);
 
-        views.setTextViewText(R.id.appwidget_text, mRecipes[position].getName());
+        ingredient = desiredIngredients.get(position);
+        String ingredientString = ingredient.getQuantity() + ingredient.getMeasure() + " of " + ingredient.getIngredient();
+        views.setTextViewText(R.id.appwidget_text, ingredientString);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(mContext, BakingAppWidgetProvider.class));
 
-/*
-        Picasso.with(mContext)
-                .load("http://image.tmdb.org/t/p/w185/" + mRecipes[position].getImage())
-*/
-/*
-                .placeholder(R.drawable.ic_do_not_disturb)
-                .error(R.color.colorAccent)
-*//*
-
-                .into(views, R.id.iv_recipe_image, appWidgetIds);
-*/
 
         // Fill in the onClick PendingIntent Template
         Bundle extras = new Bundle();
-        extras.putParcelable(Recipe.RECIPE_EXTRA, mRecipes[position]);
+        extras.putParcelable(Recipe.RECIPE_EXTRA, desiredRecipe);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         views.setOnClickFillInIntent(R.id.appwidget_text, fillInIntent);

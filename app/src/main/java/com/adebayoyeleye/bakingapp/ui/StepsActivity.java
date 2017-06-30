@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 
 import com.adebayoyeleye.bakingapp.R;
@@ -13,17 +14,21 @@ import com.adebayoyeleye.bakingapp.objects.Step;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class StepsActivity extends AppCompatActivity implements StepsAdapter.StepsAdapterOnClickHandler {
 
     Recipe recipeClicked;
-
+    @BindView(R.id.the_scrollview)
+    NestedScrollView mScrollView;
     private boolean mTwoPane;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
+        ButterKnife.bind(this);
 
         if (findViewById(R.id.two_pane_divider) != null) {
             mTwoPane = true;
@@ -43,6 +48,13 @@ public class StepsActivity extends AppCompatActivity implements StepsAdapter.Ste
             if (savedInstanceState.containsKey(Recipe.RECIPE_EXTRA)) {
                 recipeClicked = savedInstanceState
                         .getParcelable(Recipe.RECIPE_EXTRA);
+                final int[] position = savedInstanceState.getIntArray(getString(R.string.scroll_position_key));
+                if (position != null)
+                    mScrollView.post(new Runnable() {
+                        public void run() {
+                            mScrollView.scrollTo(position[0], position[1]);
+                        }
+                    });
             }
         } else {
 
@@ -79,6 +91,9 @@ public class StepsActivity extends AppCompatActivity implements StepsAdapter.Ste
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(Recipe.RECIPE_EXTRA, recipeClicked);
+        outState.putIntArray(getString(R.string.scroll_position_key),
+                new int[]{mScrollView.getScrollX(), mScrollView.getScrollY()});
+
     }
 
     @Override

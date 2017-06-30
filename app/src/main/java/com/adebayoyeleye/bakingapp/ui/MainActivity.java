@@ -3,12 +3,12 @@ package com.adebayoyeleye.bakingapp.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     public static final String BUNDLE_EXTRA = "path";
     private static final String RECIPE_LIST_URL =
             "http://go.udacity.com/android-baking-app-json";
+    private static final String LIST_STATE_KEY = "list state key";
 
     @BindView(R.id.recyclerview_recipes)
     RecyclerView mRecyclerView;
@@ -43,27 +44,41 @@ public class MainActivity extends AppCompatActivity
     Recipe[] recipes;
     private RecipesAdapter mRecipesAdapter;
 
+    private GridLayoutManager layoutManager;
+    private Parcelable mListState;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        RecyclerView.LayoutManager layoutManager;
 
         if (findViewById(R.id.tabView) != null) {
 
             layoutManager = new GridLayoutManager(this, 3);
         } else {
-            layoutManager = new LinearLayoutManager(this);
+            layoutManager = new GridLayoutManager(this, 1);
         }
+
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecipesAdapter = new RecipesAdapter(this, this);
         mRecyclerView.setAdapter(mRecipesAdapter);
 
+        if (savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            recipes = (Recipe[]) savedInstanceState.getParcelableArray(Recipe.RECIPE_EXTRA);
+            mRecipesAdapter.setResults(recipes);
+            showRecipesDataView();
+            if (mListState != null) {
+                layoutManager.onRestoreInstanceState(mListState);
+            }
 
-        loadRecipes(RECIPE_LIST_URL);
+        } else {
+            loadRecipes(RECIPE_LIST_URL);
+        }
 
     }
 
@@ -150,4 +165,43 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+/*
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+
+        // Save list state
+        mListState = layoutManager.onSaveInstanceState();
+        state.putParcelable(LIST_STATE_KEY, mListState);
+
+    }
+//    Restore state in the onRestoreInstanceState():
+    @Override
+    protected void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+
+        // Retrieve list state and list/item positions
+        if(state != null)
+            mListState = state.getParcelable(LIST_STATE_KEY);
+    }
+//    Then update the LayoutManager in onResume():
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mListState != null) {
+            layoutManager.onRestoreInstanceState(mListState);
+        }
+    }
+*/
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save list state
+        mListState = layoutManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, mListState);
+        outState.putParcelableArray(Recipe.RECIPE_EXTRA, recipes);
+    }
 }

@@ -49,7 +49,7 @@ class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesAdapterV
 
         holder.mRecipeName.setText(name);
         Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/w185/" + imagePath)
+                .load(imagePath)
                 .placeholder(R.drawable.ic_do_not_disturb)
                 .error(R.color.colorAccent)
                 .into(holder.mRecipeImage);

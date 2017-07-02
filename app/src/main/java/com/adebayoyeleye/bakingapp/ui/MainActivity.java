@@ -156,45 +156,16 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void onClick(Recipe recipeClicked) {
+    public void onClick(Recipe recipeClicked, int position) {
         Context context = this;
         Class destinationClass = StepsActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
         intentToStartDetailActivity.putExtra(Recipe.RECIPE_EXTRA, recipeClicked);
+        intentToStartDetailActivity.putExtra(Recipe.RECIPE_EXTRA_INDEX, position);
         startActivity(intentToStartDetailActivity);
 
     }
 
-/*
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-
-        // Save list state
-        mListState = layoutManager.onSaveInstanceState();
-        state.putParcelable(LIST_STATE_KEY, mListState);
-
-    }
-//    Restore state in the onRestoreInstanceState():
-    @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-
-        // Retrieve list state and list/item positions
-        if(state != null)
-            mListState = state.getParcelable(LIST_STATE_KEY);
-    }
-//    Then update the LayoutManager in onResume():
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (mListState != null) {
-            layoutManager.onRestoreInstanceState(mListState);
-        }
-    }
-*/
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

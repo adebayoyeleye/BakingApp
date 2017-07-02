@@ -66,8 +66,6 @@ public class VideoFragment extends Fragment {
 
     private Context context;
 
-    //    private List<Step> steps;
-//    private int stepIndex;
     private Step stepClicked;
 
 
@@ -84,16 +82,6 @@ public class VideoFragment extends Fragment {
     public void setStep(Step stepClicked) {
         this.stepClicked = stepClicked;
     }
-/*
-    public void setSteps(List<Step> steps) {
-        this.steps = steps;
-    }
-
-    public void setStepIndex(int stepIndex) {
-        this.stepIndex = stepIndex;
-    }
-*/
-
 
 
     /**
@@ -102,33 +90,12 @@ public class VideoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Load the saved state (the list of images and list index) if there is one
-        if (savedInstanceState != null) {
-/*
-            mImageIds = savedInstanceState.getIntegerArrayList(IMAGE_ID_LIST);
-            mListIndex = savedInstanceState.getInt(LIST_INDEX);
-*/
-
-        }
-
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
         ButterKnife.bind(this, rootView);
 
         mStepPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.ic_do_not_disturb));
 
         if (mExoPlayer == null && stepClicked != null) {
-/*
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);
-            mStepPlayerView.setPlayer(mExoPlayer);
-
-            String userAgent = Util.getUserAgent(context, "BakingApp");
-            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(stepClicked.getVideoURL()), new DefaultDataSourceFactory(context, userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
-*/
-
 
             // 1. Create a default TrackSelector
             Handler mainHandler = new Handler();
@@ -158,53 +125,32 @@ public class VideoFragment extends Fragment {
 
         }
 
-
-
         return rootView;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mExoPlayer != null) {
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer = null;
-        }
+        releasePlayer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mExoPlayer != null) {
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer = null;
-        }
+        releasePlayer();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        releasePlayer();
+    }
+
+    void releasePlayer() {
         if (mExoPlayer != null) {
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
         }
     }
-
-    /*
-    */
-/**
- * Save the current state of this fragment
- *//*
-
-    @Override
-    public void onSaveInstanceState(Bundle currentState) {
-        currentState.putIntegerArrayList(IMAGE_ID_LIST, (ArrayList<Integer>) mImageIds);
-        currentState.putInt(LIST_INDEX, mListIndex);
-    }
-*/
-
-
 }

@@ -1,6 +1,8 @@
 package com.adebayoyeleye.bakingapp.ui;
 
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -18,6 +20,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -52,6 +55,12 @@ public class MainActivityTest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     @Test
@@ -95,8 +104,11 @@ public class MainActivityTest {
                         isDisplayed()));
         textView.check(matches(isDisplayed()));
 
-        ViewInteraction button = onView(withId(R.id.btn_nxt));
-        button.check(matches(isDisplayed()));
+        if (!isTablet(getContext())) {
+            ViewInteraction button = onView(withId(R.id.btn_nxt));
+            button.check(matches(isDisplayed()));
+        }
 
     }
+
 }

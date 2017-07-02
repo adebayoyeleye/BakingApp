@@ -39,6 +39,8 @@ public class Recipe implements Parcelable {
         }
 
     };
+    public static final String RECIPE_EXTRA_INDEX = "recipe position";
+    public static final String RECIPE_DESIRED_INDEX = "desired recipe index";
     @SerializedName("id")
     @Expose
     private Integer id;

@@ -7,17 +7,44 @@
     android:layout_height="wrap_content"
     tools:context="com.adebayoyeleye.bakingapp.ui.StepsActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/btn_toggle_ingredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="toggleIngredients"
+                android:textOff="@string/button_show_ingredients"
+                android:textOn="@string/button_hide_ingredients" />
+
+            <ToggleButton
+                android:id="@+id/btn_desired_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="setDesiredRecipe"
+                android:textOff="@string/button_set_desired_recipe"
+                android:textOn="@string/button_desired_recipe" />
+        </LinearLayout>
+
+
         <FrameLayout
             android:id="@+id/fragment_master_list_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"

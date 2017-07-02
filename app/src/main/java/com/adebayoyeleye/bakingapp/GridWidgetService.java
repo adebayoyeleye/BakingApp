@@ -34,6 +34,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.adebayoyeleye.bakingapp.ui.StepsActivity.PREFS_KEY;
+
 public class GridWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
@@ -68,12 +71,12 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         try {
             String jsonResultString = NetworkUtils.getResponseFromHttpUrl(url);
             mRecipes = gson.fromJson(jsonResultString, Recipe[].class);
-            desiredRecipe = mRecipes[0];
-            desiredIngredients = desiredRecipe.getIngredients();
         } catch (JsonSyntaxException | IOException e) {
             e.printStackTrace();
         }
-
+        int prefIndex = mContext.getSharedPreferences(PREFS_KEY, MODE_PRIVATE).getInt(Recipe.RECIPE_DESIRED_INDEX, 0);
+        desiredRecipe = mRecipes[prefIndex];
+        desiredIngredients = desiredRecipe.getIngredients();
     }
 
     @Override

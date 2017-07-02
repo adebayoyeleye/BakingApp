@@ -2,6 +2,7 @@ package com.adebayoyeleye.bakingapp.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,11 +49,13 @@ class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesAdapterV
         String imagePath = recipe.getImage();
 
         holder.mRecipeName.setText(name);
-        Picasso.with(context)
-                .load(imagePath)
-                .placeholder(R.drawable.ic_do_not_disturb)
-                .error(R.color.colorAccent)
-                .into(holder.mRecipeImage);
+        if (imagePath != null && !TextUtils.isEmpty(imagePath)) {
+            Picasso.with(context)
+                    .load(imagePath)
+                    .placeholder(R.drawable.ic_do_not_disturb)
+                    .error(R.color.colorAccent)
+                    .into(holder.mRecipeImage);
+        }
 
     }
 
@@ -70,7 +73,7 @@ class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesAdapterV
      * The interface that receives onClick messages.
      */
     interface RecipesAdapterOnClickHandler {
-        void onClick(Recipe recipeClicked);
+        void onClick(Recipe recipeClicked, int position);
     }
 
     class RecipesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -91,7 +94,7 @@ class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesAdapterV
             int adapterPosition = getAdapterPosition();
             Recipe recipeClicked = results[adapterPosition];
 
-            mClickHandler.onClick(recipeClicked);
+            mClickHandler.onClick(recipeClicked, adapterPosition);
         }
     }
 }
